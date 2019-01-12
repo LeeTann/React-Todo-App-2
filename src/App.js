@@ -1,7 +1,9 @@
 import React from 'react';
 import Header from './components/layout/Header'
 import Todos from './components/Todos'
+import AddTodos from './components/AddTodos'
 import './App.css';
+import uuid from 'uuid'; //uuid used to generate random id. (yarn add uuid) to install
 
 class App extends React.Component {
   constructor() {
@@ -9,7 +11,7 @@ class App extends React.Component {
     this.state ={
       todos: [
         {
-          id: 1,
+          id: uuid.v4(),
           task: "take out the trash",
           completed: false,
         },
@@ -45,10 +47,21 @@ class App extends React.Component {
     //for each todo item, retrun the todo id that is not equal to the id that was passed in/clicked.
   }
 
+  // Add Todo
+  addTodo = (task) => {
+    const newTodo = {
+      id: uuid.v4(),
+      task: task,
+      completed: false,
+    }
+    this.setState({ todos: [...this.state.todos, newTodo]})
+  }
+
   render() {
     return (
       <div className="App">
         <Header />
+        <AddTodos addTodo={this.addTodo} />
         <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
       </div>
     );
