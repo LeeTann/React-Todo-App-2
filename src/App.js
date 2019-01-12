@@ -1,9 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 import Header from './components/layout/Header'
 import Todos from './components/Todos'
 import AddTodos from './components/AddTodos'
 import './App.css';
 import uuid from 'uuid'; //uuid used to generate random id. (yarn add uuid) to install
+import About from './components/pages/About';
 
 class App extends React.Component {
   constructor() {
@@ -59,11 +62,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <AddTodos addTodo={this.addTodo} />
-        <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
-      </div>
+      <Router>
+        <div className="App">
+          <Header />
+          <Route exact path="/" render={props => (
+            <React.Fragment>
+              <AddTodos addTodo={this.addTodo} />
+              <Todos todos={this.state.todos} markComplete={this.markComplete} deleteItem={this.deleteItem} />
+            </React.Fragment>
+          )} />
+          <Route path="/about" component={About} />
+        </div>
+      </Router>
+
     );
   }
 }
